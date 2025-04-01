@@ -1,0 +1,13 @@
+{% load static %}
+{% include 'header.html' %}
+<div class="main items-center justify-center bg-gray-100">
+    <section class="user_page steps section container" id="login">
+        <div class="steps__bg">
+            <div class="container">
+                <a class="btn" href="{% url 'logout'%}">Logout</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% include 'footer.html' %}

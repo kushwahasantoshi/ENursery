@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ibd+p%zk@3g&)a8-s=z%9omgd5n*5*@&n0t2xwoj!k=y&%l7(@'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ENurseryApp'
+]
+AUTH_USER_MODEL = 'ENurseryApp.CustomUser'
+
+
+AUTHENTICATION_BACKENDS=[
+    'django.contrib.auth.backends.ModelBackend'
 ]
 
 MIDDLEWARE = [
@@ -74,14 +82,16 @@ WSGI_APPLICATION = 'ENursery.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': 
-        {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'enursery_db',
-        'USER' : 'root',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'PASSWORD' : '',
+        'OPTIONS': {
+            'charset': 'utf8mb4'
+        },
     }
 }
 
@@ -121,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

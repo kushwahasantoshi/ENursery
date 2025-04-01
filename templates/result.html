@@ -1,1 +1,3 @@
-<h3>Predicted Disease: {{ disease }}</h3>
+<h2>Prediction Result</h2>
+<p>The detected disease is: {{ prediction }}</p>
+<a href="{% url 'predict_disease' %}">Try Again</a>

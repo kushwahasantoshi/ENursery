@@ -1,0 +1,34 @@
+{% load static %}
+{% include 'header.html' %}
+<div class="main items-center justify-center bg-gray-100">
+    <section class="login_page steps section container" id="login">
+        <div class="login_form steps__bg">
+            <div class="container">
+                <h2 class="section__title-center steps__title">Login</h2>
+                <form method="POST" class="login_container steps__card">
+                    {% csrf_token %}
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="email">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Password">
+                    <button type="submit" class="button button--flex">Login</button>
+                    <p>OR <br>
+                    Login With</p>
+                    <div class="login__social-links">
+                        <a href="https://www.facebook.com/" target="_blank" class="login__social-link">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" class="login__social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://twitter.com/" target="_blank" class="login__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                    <p>Don't have an account? <a href="/registration" class="button--link button--flex">Register here</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% include 'footer.html' %}

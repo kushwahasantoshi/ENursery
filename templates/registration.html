@@ -1,0 +1,30 @@
+{% load static %}
+{% include 'header.html' %}
+<div class="main items-center justify-center bg-gray-100">
+    <section class="login_page section container" id="registration">
+        <div class="login_form">
+            <div class="container login_container">
+                <center><h2>Register</h2></center>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="username" required placeholder="User's Full Name">
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="For Example: 123ABC@gmail.com">
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Password">
+                    
+                    <label for="password">Location:</label>
+                    <input type="text" id="address" name="add" required placeholder="Full Adress">
+                    <input type="number" id="pin" name="pincode" required placeholder="Pin COde">
+                    
+                    <button type="submit" class="button button--flex">Register</button>
+                </form>
+                <p>Already have an account? <a href="/login" class="button--link button--flex">Login here</a></p>
+            </div>
+        </div>
+    </section>
+</div>
+{% include 'footer.html' %}

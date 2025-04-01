@@ -1,32 +1,74 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from .model_loader import model, preprocess_image
-import numpy as np
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from .models import CustomUser
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
+User = get_user_model()
 
 def Welcome(request):
-    return HttpResponse("Hello World")
+    return render(request,'home.html')
+
+def aboutus(request):
+    return render(request,'aboutus.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
+def products(request):
+    return render(request,'products.html')
+
+# ========================== Registration Function =====================
+def registration(request):
+    if request.method == 'POST':
+        uname = request.POST.get('username')
+        email = request.POST.get('email')
+        pas = request.POST.get('password')
+        address = request.POST.get('add')
+        pin = request.POST.get('pincode')
+
+        my_user = CustomUser.objects.create_user(username=uname, email=email, password=pas)
+        my_user.address = address
+        my_user.pin = pin
+        my_user.save()
+        return redirect('login')
+    return render(request, "registration.html")
+
+#===================== Login Function ========================
+def login_view(request):
+    if request.method == "POST":
+        email= request.POST.get('email')
+        pas = request.POST.get('password')
+        print(email,pas)
+        user = authenticate(request,CustomUser=email,password=pas)
+        print(user)
+
+        try:
+            user_obj = User.objects.get(email=email)  # Find user by email
+            user = authenticate(request, username=user_obj.username, password=pas)  # Authenticate using username
+        except User.DoesNotExist:
+            user = None
+
+        if user is not None:
+            login(request,user) 
+            return redirect('user')
+        else:
+            return HttpResponse("User name or password is incorrect")
+    return render(request, "login.html")
 
 
-def predict_disease(request):
-    if request.method == "POST" and request.FILES["leaf_image"]:
-        image = request.FILES["leaf_image"]
-        
-        # Save uploaded image
-        fs = FileSystemStorage()
-        file_path = fs.save(image.name, image)
-        img_array = preprocess_image(fs.path(file_path))
+# ====================== User page after Login ===================
 
-        # Make prediction
-        prediction = model.predict(img_array)
-        predicted_class = np.argmax(prediction)  # Get highest probability class
+@login_required(login_url='login')
+def user(request):
+    return render(request,"user.html")
 
-        # Map class index to disease name (You need to add a mapping dictionary)
-        class_labels = {0: "Healthy", 1: "Bacterial Spot", 2: "Late Blight"}
-        disease_name = class_labels.get(predicted_class, "Unknown")
+# ============== LogOut Function ==================
 
-        return render(request, "result.html", {"disease": disease_name})
-
-    return render(request, "prediction.html")
-
+def logout_view(request):  # Changed function name
+    logout(request)  # Calls Django's built-in logout function
+    return redirect('home')
