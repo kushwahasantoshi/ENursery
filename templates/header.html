@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="{% static 'css/new_style.css' %}">
 
         <!--====================== Bootstrap ========================-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-YUe2LzesAfftltw+PEaao2tjU/QATaW/rOitAq67e0CT0Zi2VVRL0oC4+gAaeBKu" crossorigin="anonymous"></script>
 
         <title>Plants website </title>
     </head>
@@ -33,7 +35,7 @@
                     <a class="nav__link {% if request.path == '/aboutus/' %} active-link {% endif%}" href="/aboutus">About</a>
                 </li>
                 <li class="nav__item">
-                    <a href="/products" class="nav__link {% if request.path == '/products' %} active-link {% endif%}">Products</a>
+                    <a href="/products" class="nav__link {% if request.path == '/products' %} active-link {% endif%}">Plants</a>
                 </li>
                 <li class="nav__item">
                     <a href="#faqs" class="nav__link">FAQs</a>

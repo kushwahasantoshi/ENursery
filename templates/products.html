@@ -1,8 +1,39 @@
 {% load static %}
 {% include 'header.html' %}
-<section id="products_page">
-    <div class="products">
-        This is Products Page
-    </div>
-</section>
+<div class="main items-center justify-center bg-gray-100">
+    <section class="products_page steps section container-fluid" id="products" style="background-color: rgba(101, 105, 104, 0.247);">
+        <div class=" mx-auto container">
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="list-group">
+                        <a href="/products/" class="list-group-item list-group-item-success" style="margin-bottom: 5px;">All Products</a>
+                        {% for category in category %}
+                            <a href="/products/?category={{category.id}}" class="list-group-item list-group-item-success" style="margin-bottom: 5px;">{{category.name}}</a>
+                        {% endfor %} 
+                    </div>
+                </div>
+
+                <div class="col-lg-9 products">
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="card mx-auto md-4" style="width: 17rem; margin-top: 13px;">
+                            <img src="{{product.image.url}}" class="card-img-top" alt="{{product.image}}" style="width: 100%; height: 260px;">
+                            <div class="card-body">
+                                <h4 class="card-title">{{product.name}}</h4>
+                                <h6 class="card-text">Rs. {{product.price}}</h6>
+                                <div class="card-btns">
+                                    <a href="#" class="btn btn-warning add-to-cart"> add to cart</a>
+                                    <a href="#" class="btn btn-success order_btn">order now</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 {% include 'footer.html' %}

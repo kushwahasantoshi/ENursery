@@ -4,7 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from .model_loader import model, preprocess_image
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser
+from .models import CustomUser, Product, Category
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
@@ -15,12 +15,27 @@ def Welcome(request):
 
 def aboutus(request):
     return render(request,'aboutus.html')
+    
 
 def contact(request):
     return render(request,'contact.html')
+    
 
 def products(request):
-    return render(request,'products.html')
+    products = None
+    category = Category.get_all_category();
+
+    categoryID = request.GET.get('category')
+    if categoryID:
+        products = Product.get_category_id_get_all_product(categoryID)
+    else:
+        products = Product.get_all_products() 
+    data = {}
+    data["products"] = products
+    data["category"] = category
+    return render(request, 'products.html',data)
+
+    
 
 # ========================== Registration Function =====================
 def registration(request):
@@ -39,6 +54,7 @@ def registration(request):
     return render(request, "registration.html")
 
 #===================== Login Function ========================
+
 def login_view(request):
     if request.method == "POST":
         email= request.POST.get('email')

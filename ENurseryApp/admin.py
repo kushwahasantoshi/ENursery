@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser
+from ENurseryApp.models import Product, CustomUser, Category
 from django.contrib.auth.admin import UserAdmin
 
 class CustomUserAdmin(UserAdmin):
@@ -8,4 +8,10 @@ class CustomUserAdmin(UserAdmin):
         ('Additional Info', {'fields': ('address', 'pin')}),
     )
 
+class AdminProduct(admin.ModelAdmin):
+    list_display = ['id','name','price','category','description','image']
+
+
+admin.site.register(Category)
 admin.site.register(CustomUser)
+admin.site.register(Product,AdminProduct)
