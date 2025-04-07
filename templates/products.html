@@ -18,8 +18,12 @@
                     <div class="row">
                         {% for product in products %}
                         <div class="card mx-auto md-4" style="width: 17rem; margin-top: 13px;">
-                            <img src="{{product.image.url}}" class="card-img-top" alt="{{product.image}}" style="width: 100%; height: 260px;">
-                            <div class="card-body">
+                                <a href="{% url 'product_detail' product.id %}" class="btn">
+                                    <div class="item">
+                                        <img src="{{product.image.url}}" class="card-img-top" alt="{{product.image}}" style="width: 100%; height: 220px;">
+                                    </div>
+                                </a>
+                                <div class="card-body">
                                 <h4 class="card-title">{{product.name}}</h4>
                                 <h6 class="card-text">Rs. {{product.price}}</h6>
                                 <div class="card-btns">

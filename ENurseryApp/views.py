@@ -19,7 +19,18 @@ def aboutus(request):
 
 def contact(request):
     return render(request,'contact.html')
-    
+
+
+def productdetail(request,product_id):
+    product_detail = Product.objects.get(id=product_id)
+    try:
+        product = Product.objects.get(id=product_id)
+        return render(request, 'product_detail.html', {'product': product})
+    except Product.DoesNotExist:
+        return HttpResponse("Product not found.")
+
+
+#============================== Product Function ===================
 
 def products(request):
     products = None
@@ -33,6 +44,7 @@ def products(request):
     data = {}
     data["products"] = products
     data["category"] = category
+    print(request.session.get('email'))
     return render(request, 'products.html',data)
 
     
@@ -55,27 +67,45 @@ def registration(request):
 
 #===================== Login Function ========================
 
+# def login_view(request):
+#     if request.method == "POST":
+#         email= request.POST.get('email')
+#         pas = request.POST.get('password')
+#         print(email,pas)
+        
+#         try:
+#             user_obj = User.objects.get(email=email)  # Find user by email
+#             user = authenticate(request, username=user_obj.username, password=pas)  # Authenticate using username
+#         except User.DoesNotExist:
+#             user = None
+
+#         if user is not None:
+#             request.session['user_id'] = user.id
+#             return redirect('user')
+#         else:
+#             return HttpResponse("User name or password is incorrect")
+#     return render(request, "login.html")
+
+
 def login_view(request):
     if request.method == "POST":
-        email= request.POST.get('email')
+        email = request.POST.get('email')
         pas = request.POST.get('password')
-        print(email,pas)
-        user = authenticate(request,CustomUser=email,password=pas)
-        print(user)
-
+        
         try:
-            user_obj = User.objects.get(email=email)  # Find user by email
-            user = authenticate(request, username=user_obj.username, password=pas)  # Authenticate using username
+            user_obj = User.objects.get(email=email)
+            user = authenticate(request, username=user_obj.username, password=pas)
         except User.DoesNotExist:
             user = None
 
         if user is not None:
-            login(request,user) 
-            return redirect('user')
+            login(request, user)
+            request.session['user_id'] = user.id
+            return redirect(request.GET.get('next', 'user'))
         else:
-            return HttpResponse("User name or password is incorrect")
-    return render(request, "login.html")
+            return HttpResponse("Username or password is incorrect")
 
+    return render(request, "login.html")
 
 # ====================== User page after Login ===================
 
